@@ -27,34 +27,39 @@ Array.prototype.sample = function(){
   return this[Math.floor(Math.random()*this.length)];
 }
 
-const recomendText = {
-  yes: "Considero que este profesor es una buena opción para tomar sus clases gracias a como las da.",
-  no: "Creo que este profe tiene muchas cosas que mejorar dentro de su clase, hay varios aspectos en los que en mi opinión no es bueno"
-}
+// const recomendText = {
+//   yes: [
+//     "Considero que este profesor es una buena opción para tomar sus clases gracias a como las da."
+//   ],
+//   no: [
+//     "Creo que este profe tiene muchas cosas que mejorar dentro de su clase, hay varios aspectos en los que en mi opinión no es bueno"
+//   ]
+// }
 
-const fortalezasText = [
-  "Busca superarse a sí mismo y adquirir nuevas herramientas para la clase",
-  "Tiene una actitud positiva y ama su trabajo",
-  "Sabe escucha a sus estudiantes y se adapta a sus necesidades",
-  "Confía en sus estudiantes"
-]
+// const fortalezasText = [
+//   "Busca superarse a sí mismo y adquirir nuevas herramientas para la clase",
+//   "Tiene una actitud positiva y ama su trabajo",
+//   "Sabe escucha a sus estudiantes y se adapta a sus necesidades",
+//   "Confía en sus estudiantes"
+// ]
 
-const mejorasText = {
-  yes: [
-    "Considero que debe mejorar mucho la forma en la que presenta los temas de su clase para que sean mejores",
-    "No hay mucho que mejorar, simplemente que trate de hacer más amena la clase",
-    "La actitud que tiene dentro del aula"
-  ],
-  no: [
-    "Nada que mejorar, muy buen profesor",
-    "Creo que debe pulir un poco mejor los temas que dará, sin embargo todo lo demás está bien"
-  ]
-}
+// const mejorasText = {
+//   yes: [
+//     "Considero que debe mejorar mucho la forma en la que presenta los temas de su clase para que sean mejores",
+//     "No hay mucho que mejorar, simplemente que trate de hacer más amena la clase",
+//     "La actitud que tiene dentro del aula"
+//   ],
+//   no: [
+//     "Nada que mejorar, muy buen profesor",
+//     "Creo que debe pulir un poco mejor los temas que dará, sin embargo todo lo demás está bien"
+//   ]
+// }
 
-const comments = [
-  "Nada que comentar"
-]
+// const comments = [
+//   "Nada que comentar"
+// ]
 
+import {recomendText, fortalezasText, mejorasText, comments} from 'textos.js'
 
 // Selecciona cada uno de los radio buttons con una calificacion aleatoria, se debe definir un rango 
 Cypress.Commands.add('UADYRadioSelect', (minScore, maxScore) => {
@@ -68,7 +73,7 @@ Cypress.Commands.add('UADYRadioSelect', (minScore, maxScore) => {
   })
 })
 
-Cypress.Commands.add('UADYNextQuestionary', () => {
+Cypress.Commands.add('UADYNextQuestionnaire', () => {
   cy.get('.next').each(($el) => {
     if($el.is(':visible')){
       if($el.text() === "Siguiente"){
@@ -99,7 +104,7 @@ Cypress.Commands.add('UADYRadioSelectYesOrNo', Option => {
 Cypress.Commands.add('UADYFillTextArea', (recomended=true, specificFortaleza, needImprovement=false, comment) => {
 
   const preguntas = {
-    0: recomendText[ recomended ? 'yes': 'no'],
+    0: recomendText[ recomended ? 'yes': 'no'].sample(),
     1: specificFortaleza || fortalezasText.sample(),
     2: mejorasText[needImprovement ? 'yes': 'no'].sample(),
     3: comment || comments.sample()
